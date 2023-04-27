@@ -7,7 +7,7 @@
 
 /**
  * Implements hook_menu().
- * 
+ *
  * Add path for content feed.
  */
 function thisted_heyloyalty_newsletter_menu() {
@@ -22,6 +22,13 @@ function thisted_heyloyalty_newsletter_menu() {
 
   $items['feed/json/node/news'] = array(
     'page callback' => 'thisted_heyloyalty_newsletter_feed_json_news',
+    'access arguments' => array(
+      'access content',
+    )
+  );
+
+  $items['feed/json/node/education'] = array(
+    'page callback' => 'thisted_heyloyalty_newsletter_feed_json_education',
     'access arguments' => array(
       'access content',
     )
@@ -141,7 +148,7 @@ function thisted_heyloyalty_newsletter_form__ulf_admin_panel_form_alter(&$form, 
 function thisted_heyloyalty_newsletter_feed_json_course() {
   $content_types = array(
     'course',
-    'course_educators'
+    'course_educators',
   );
 
 
@@ -165,6 +172,23 @@ function thisted_heyloyalty_newsletter_feed_json_news() {
   );
 
   $newsletter_nodes = thisted_heyloyalty_newsletter_get_nodes($content_types, 'news');
+
+  drupal_json_output($newsletter_nodes);
+  drupal_exit();
+}
+
+/**
+ * Provide a json feed with news for newsletter.
+ *
+ * @return array
+ *   An array of items to display in the feed.
+ */
+function thisted_heyloyalty_newsletter_feed_json_education() {
+  $content_types = array(
+    'education'
+  );
+
+  $newsletter_nodes = thisted_heyloyalty_newsletter_get_nodes($content_types, 'education');
 
   drupal_json_output($newsletter_nodes);
   drupal_exit();
